@@ -23,29 +23,14 @@
             </arg>
         </initMethod>
 
+        <!-- 操作ログ -->
         <initMethod name="addCustomizer">
             <arg>
                 <component class="org.seasar.framework.container.customizer.AspectCustomizer">
-                    <property name="interceptorName">"errorHandleInterceptor"</property>
+                    <property name="interceptorName">"actionLogInterceptor"</property>
                 </component>
             </arg>
         </initMethod>
-
-        <!-- 認証用インターセプターを追加 -->
-<!--         <initMethod name="addCustomizer"> -->
-<!--             <arg> -->
-<!--                 <component class="org.seasar.framework.container.customizer.AspectCustomizer"> -->
-<!--                     <property name="interceptorName">"loginCheckInterceptor"</property> -->
-<!--                 </component> -->
-<!--             </arg> -->
-<!--         </initMethod> -->
-<!--         <initMethod name="addCustomizer"> -->
-<!--             <arg> -->
-<!--                 <component class="org.seasar.framework.container.customizer.AspectCustomizer"> -->
-<!--                     <property name="interceptorName">"roleCheckInterceptor"</property> -->
-<!--                 </component> -->
-<!--             </arg> -->
-<!--         </initMethod> -->
     </component>
 
     <component name="serviceCustomizer" class="org.seasar.framework.container.customizer.CustomizerChain">
