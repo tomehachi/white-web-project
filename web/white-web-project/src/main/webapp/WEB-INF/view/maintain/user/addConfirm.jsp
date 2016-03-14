@@ -32,7 +32,7 @@
         <div class="col-md-6 col-md-offset-3">
             <div class="form-group">
                 ログインID<br>
-                ${maintainUserForm.email }
+                ${userForm.email }
             </div>
 
             <div class="panel panel-info">
@@ -43,7 +43,7 @@
                     このユーザに付与する権限は以下です。
                     <div class="checkbox">
                         <c:forEach items="${roleEnum }" var="roleElement">
-                            <c:if test="${fn:contains(maintainUserForm.roles, roleElement) }">${roleElement.name }</c:if>
+                            <c:if test="${fn:contains(userForm.roles, roleElement) }">${roleElement.name }</c:if>
                         </c:forEach>
                     </div>
                     <html:errors property="roles" />
@@ -53,8 +53,8 @@
             <form action="${contextPath }/maintain/user/addCommit" method="POST" autocomplete="off">
                 <div class="row">
                     <div class="col-md-6 col-md-offset">
-                        <input type="hidden" name="email" value="${maintainUserForm.email }">
-                        <c:forEach items="${maintainUserForm.roles }" varStatus="stat" var="role">
+                        <input type="hidden" name="email" value="${userForm.email }">
+                        <c:forEach items="${userForm.roles }" varStatus="stat" var="role">
                             <input type="hidden" name="roles[${stat.index }]" value="${role }">
                         </c:forEach>
                         <input type="submit" class="btn btn-primary" name="submit" value="登録確認">

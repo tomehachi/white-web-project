@@ -20,10 +20,6 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="${contextPath }/maintain/user">ユーザ一覧</a></li>
                         <li><a href="${contextPath }/maintain/user/add">ユーザ追加</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">

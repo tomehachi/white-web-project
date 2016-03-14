@@ -30,7 +30,7 @@
         <div class="col-md-6 col-md-offset-3">
             <div class="form-group">
                 ログインID<br>
-                ${maintainUserForm.email }
+                ${userForm.email }
             </div>
 
             <div class="panel panel-info">
@@ -53,7 +53,7 @@
                     <div class="col-md-6 col-md-offset">
                         <input type="hidden" name="userId" value="${userId }">
                         <input type="hidden" name="email" value="${email }">
-                        <c:forEach items="${maintainUserForm.roles }" varStatus="stat" var="role">
+                        <c:forEach items="${userForm.roles }" varStatus="stat" var="role">
                             <input type="hidden" name="roles[${stat.index }]" value="${role }">
                         </c:forEach>
                         <input type="submit" class="btn btn-primary" name="submit" value="登録確認">

@@ -14,7 +14,7 @@ import net.tomehachi.web.annotation.RoleLimited;
 import net.tomehachi.web.entity.ChangePasswordKey;
 import net.tomehachi.web.entity.UserAuth;
 import net.tomehachi.web.entity.UserRole;
-import net.tomehachi.web.form.maintain.MaintainUserForm;
+import net.tomehachi.web.form.maintain.UserForm;
 import net.tomehachi.web.mail.MailDto;
 import net.tomehachi.web.mail.MailUtil;
 import net.tomehachi.web.service.ChangePasswordKeyService;
@@ -39,7 +39,7 @@ public class UserAction {
 
     /** ユーザメンテナンス */
     @ActionForm
-    public MaintainUserForm maintainUserForm;
+    public UserForm userForm;
 
     /** ユーザ認証サービス */
     @Resource
@@ -98,7 +98,7 @@ public class UserAction {
     @RoleLimited(role = Role.admin)
     @Execute(validator = true, validate = "validateUserAuth, validateUserRole", input = "add.jsp")
     public String addCommit() throws AppException {
-        if(maintainUserForm.submit.equals("戻る")) {
+        if(userForm.submit.equals("戻る")) {
             return "add.jsp";
         }
 
@@ -107,7 +107,7 @@ public class UserAction {
 
         // ユーザ認証情報の作成
         UserAuth userAuth = new UserAuth();
-        userAuth.email = maintainUserForm.email;
+        userAuth.email = userForm.email;
         userAuth.password = SecurityUtil.encode(initPassword);
         userAuth.createdAt = new Timestamp(new Date().getTime());
         userAuth.updatedAt = new Timestamp(new Date().getTime());
@@ -117,7 +117,7 @@ public class UserAction {
         Integer userId = jdbcManager.selectBySql(
                 Integer.class, "SELECT LAST_INSERT_ID() FROM user_auth LIMIT 1").getSingleResult();
 
-        for(String role : maintainUserForm.roles) {
+        for(String role : userForm.roles) {
             // ユーザロールの作成
             UserRole userRole = new UserRole();
             userRole.userId = userId;
@@ -159,7 +159,7 @@ public class UserAction {
         ActionMessages result = new ActionMessages();
 
         /* -- ユーザ重複チェック -- */
-        if(userAuthService.userExists(maintainUserForm.email)) {
+        if(userAuthService.userExists(userForm.email)) {
             result.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("errors.userDuplication"));
         }
         return result;
@@ -174,12 +174,12 @@ public class UserAction {
         ActionMessages result = new ActionMessages();
 
         /* -- 未選択チェック -- */
-        if(maintainUserForm.roles == null || maintainUserForm.roles.length == 0) {
+        if(userForm.roles == null || userForm.roles.length == 0) {
             result.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("errors.roleEmpty"));
         }
 
         /* -- ロール存在チェック -- */
-        for(String role: maintainUserForm.roles) {
+        for(String role: userForm.roles) {
             boolean isValidRoleName = false;
             for(Role roleMaster : Role.values()) {
                 if(role.equals(roleMaster.toString())) {
@@ -193,7 +193,7 @@ public class UserAction {
 
         /* -- ロール一意チェック -- */
         Set<String> uniqueRoles = new HashSet<String>();
-        for(String role: maintainUserForm.roles) {
+        for(String role: userForm.roles) {
             if(uniqueRoles.contains(role)) {
                 result.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("errors.roleDuplication"));
             } else {
@@ -208,8 +208,8 @@ public class UserAction {
     @RoleLimited(role = Role.admin)
     @Execute(validator = false, validate="validateUserEdit", input="index.jsp")
     public String edit() throws AppException {
-        maintainUserForm.email = userAuthService.findById(maintainUserForm.userId).email;
-        maintainUserForm.roles = userRoleService.getRoleNames(maintainUserForm.userId);
+        userForm.email = userAuthService.findById(userForm.userId).email;
+        userForm.roles = userRoleService.getRoleNames(userForm.userId);
         return "edit.jsp";
     }
 
@@ -222,18 +222,18 @@ public class UserAction {
     @RoleLimited(role = Role.admin)
     @Execute(validator = true, validate = "validateUserEdit, validateUserRole", input = "edit.jsp")
     public String editCommit() {
-        if(maintainUserForm.submit.equals("戻る")) {
+        if(userForm.submit.equals("戻る")) {
             return "edit.jsp";
         }
         // ロール削除
-        List<UserRole> roles = userRoleService.findByUserId(maintainUserForm.userId);
+        List<UserRole> roles = userRoleService.findByUserId(userForm.userId);
         for(UserRole role : roles) {
             userRoleService.delete(role);
         }
         // ロール追加
-        for(String roleName : maintainUserForm.roles) {
+        for(String roleName : userForm.roles) {
             UserRole roleDto = new UserRole();
-            roleDto.userId = maintainUserForm.userId;
+            roleDto.userId = userForm.userId;
             roleDto.role = roleName;
             roleDto.createdAt = new Timestamp((new Date()).getTime());
             roleDto.updatedAt = new Timestamp((new Date()).getTime());
@@ -252,13 +252,13 @@ public class UserAction {
         ActionMessages result = new ActionMessages();
 
         // ユーザID未指定
-        if(maintainUserForm == null || maintainUserForm.userId == null) {
+        if(userForm == null || userForm.userId == null) {
             result.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("errors.undefined.userId"));
             return result;
         }
 
         // ユーザID存在チェック
-        if(userAuthService.findById(maintainUserForm.userId) == null) {
+        if(userAuthService.findById(userForm.userId) == null) {
             result.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("errors.notFound.userId"));
             return result;
         }

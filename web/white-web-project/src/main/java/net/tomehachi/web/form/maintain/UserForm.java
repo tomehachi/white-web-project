@@ -9,7 +9,7 @@ import org.seasar.struts.annotation.EmailType;
 import org.seasar.struts.annotation.Maxlength;
 import org.seasar.struts.annotation.Required;
 
-public class MaintainUserForm implements Serializable {
+public class UserForm implements Serializable {
 
     @Required(arg0 = @Arg(key = "メールアドレス", resource = false))
     @EmailType(arg0 = @Arg(key = "メールアドレス", resource = false))

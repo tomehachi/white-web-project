@@ -57,7 +57,7 @@
                                 名称に注意するか、実装を変更下さい
                             --%>
                             <c:forEach items="${roleEnum }" var="roleElement">
-                            <label><input type="checkbox" name="roles" value="${roleElement }" <c:if test="${fn:contains(maintainUserForm.roles, roleElement) }">checked="checked"</c:if>> ${roleElement.name }</label>　
+                            <label><input type="checkbox" name="roles" value="${roleElement }" <c:if test="${fn:contains(userForm.roles, roleElement) }">checked="checked"</c:if>> ${roleElement.name }</label>　
                             </c:forEach>
                         </div>
                         <html:errors property="roles" />
