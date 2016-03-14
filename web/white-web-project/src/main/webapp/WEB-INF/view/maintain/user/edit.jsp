@@ -1,7 +1,7 @@
 <%@page import="net.tomehachi.web.annotation.Role"%>
 <tiles:insert template="/WEB-INF/view/default-parts/layout.jsp" flush="true">
 
-    <tiles:put name="title">${pageTitle} | ${siteName }</tiles:put>
+    <tiles:put name="title">ユーザ編集 | ${siteName }</tiles:put>
 
     <tiles:put name="css" type="string">
     <link rel="stylesheet" href="${contextPath }/assets/bootstrap-table/bootstrap-table.css">
@@ -25,9 +25,9 @@
 
     <tiles:put name="content" type="string">
     <span class="label label-danger">admin only</span>
-    <h2 class="page-title"><i class="fa fa-wrench"></i>&nbsp;ユーザ登録</h2>
+    <h2 class="page-title"><i class="fa fa-wrench"></i>&nbsp;ユーザ編集</h2>
 
-    <form action="${contextPath }/maintain/user/addConfirm" method="POST" autocomplete="off">
+    <form action="${contextPath }/maintain/user/editConfirm" method="POST" autocomplete="off">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <html:errors property="org.apache.struts.action.GLOBAL_MESSAGE" />
@@ -37,12 +37,8 @@
             <div class="col-md-6 col-md-offset-3">
                 <div class="form-group">
                     <label for="email" class="form-label">ログインID</label><br>
-                    <input type="text" id="email" class="form-control" name="email" placeholder="メールアドレス" value="${email }">
+                    ${email }
                     <html:errors property="email" />
-                </div>
-                <div class="alert alert-warning">
-                    作成するユーザの初期パスワードは、自動生成されます。<br>
-                    生成されたパスワードは、ご本人に直接メールで通知されます。
                 </div>
 
                 <div class="panel panel-info">
@@ -52,13 +48,23 @@
                     <div class="panel-body">
                         付与する権限を以下から選んでください。
                         <div class="checkbox">
+                            <%--
+                                !!!ロール所有チェックは部分一致としているので、ロールの名称は要注意です!!!
+                                例)
+                                roleEnum = [admin, user, superadmin]
+                                としてしまった場合、ユーザが所有するロールが admin となっていると
+                                admin, superadmin どちらもチェックONと表示されてしまいます。
+
+                                名称に注意するか、実装を変更下さい
+                            --%>
                             <c:forEach items="${roleEnum }" var="roleElement">
-                            <label><input type="checkbox" name="roles" value="${roleElement }"> ${roleElement.name }</label>　
+                            <label><input type="checkbox" name="roles" value="${roleElement }" <c:if test="${fn:contains(maintainUserForm.roles, roleElement) }">checked="checked"</c:if>> ${roleElement.name }</label>　
                             </c:forEach>
                         </div>
                         <html:errors property="roles" />
                     </div>
                 </div>
+                <input type="hidden" name="email" value="${email }">
                 <input type="submit" class="btn btn-primary" value="登録確認">
                 <input type="reset" class="btn btn-default" value="リセット">
 

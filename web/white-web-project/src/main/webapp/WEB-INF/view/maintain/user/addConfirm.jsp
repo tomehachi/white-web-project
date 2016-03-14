@@ -50,21 +50,21 @@
                     <html:errors property="roles" />
                 </div>
             </div>
+
+            <form action="${contextPath }/maintain/user/addCommit" method="POST" autocomplete="off">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset">
+                        <input type="hidden" name="email" value="${maintainUserForm.email }">
+                        <c:forEach items="${maintainUserForm.roles }" varStatus="stat" var="role">
+                            <input type="hidden" name="roles[${stat.index }]" value="${role }">
+                        </c:forEach>
+                        <input type="submit" class="btn btn-primary" name="submit" value="登録確認">
+                        <input type="submit" class="btn btn-default" name="submit" value="戻る">
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-
-    <form action="${contextPath }/maintain/user/addCommit" method="POST" autocomplete="off">
-        <div class="row">
-            <div class="col-md-6 col-md-offset">
-                <input type="hidden" name="email" value="${maintainUserForm.email }">
-                <c:forEach items="${maintainUserForm.roles }" varStatus="stat" var="role">
-                    <input type="hidden" name="roles[${stat.index }]" value="${role }">
-                </c:forEach>
-                <input type="submit" class="btn btn-primary" name="submit" value="登録確認">
-                <input type="submit" class="btn btn-default" name="submit" value="戻る">
-            </div>
-        </div>
-    </form>
 
     </tiles:put>
 

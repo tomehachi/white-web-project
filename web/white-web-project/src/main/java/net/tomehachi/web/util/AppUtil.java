@@ -14,8 +14,10 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import net.arnx.jsonic.JSON;
@@ -168,4 +170,11 @@ public class AppUtil {
         return DATE_TIME_FORMAT.format(new Date(timestamp.getTime()));
     }
 
+    public static String[] getFieldStringArrayOf(List<?> list, String fieldName) throws AppException {
+        List<String> result = new ArrayList<String>();
+        for(Object element: list) {
+            result.add(getObjectField(element, fieldName).toString());
+        }
+        return result.toArray(new String[result.size()]);
+    }
 }

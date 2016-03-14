@@ -1,6 +1,6 @@
 <tiles:insert template="/WEB-INF/view/default-parts/layout.jsp" flush="true">
 
-    <tiles:put name="title">${pageTitle} | ${siteName }</tiles:put>
+    <tiles:put name="title">ユーザ一覧 | ${siteName }</tiles:put>
 
     <tiles:put name="css" type="string">
     <link rel="stylesheet" href="${contextPath }/assets/bootstrap-table/bootstrap-table.css">
@@ -58,6 +58,8 @@
     <span class="label label-danger">admin only</span>
     <a href="${contextPath }/maintain/user/add" class="btn btn-primary pull-right">新規作成</a>
     <h2 class="page-title"><i class="fa fa-wrench"></i>&nbsp;ユーザ一覧</h2>
+
+    <html:errors property="org.apache.struts.action.GLOBAL_MESSAGE" />
 
     <div id="toolbar"></div>
     <table id="user-list">

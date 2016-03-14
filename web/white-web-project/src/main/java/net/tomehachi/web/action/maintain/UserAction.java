@@ -82,22 +82,20 @@ public class UserAction {
 
     /* -- 追加 ------------------------------------------------------------------------------------------------------ */
 
-    public Role[] roles = Role.values();
-
     @RoleLimited(role = Role.admin)
     @Execute(validator = false)
     public String add() {
         return "add.jsp";
     }
 
-    @Execute(validator = true, validate = "validateNewUser", input = "edit.jsp")
+    @Execute(validator = true, validate = "validateUserAuth, validateUserRole", input = "add.jsp")
     @RoleLimited(role = Role.admin)
     public String addConfirm() {
         return "addConfirm.jsp";
     }
 
     @RoleLimited(role = Role.admin)
-    @Execute(validator = true, validate = "validateNewUser", input = "edit.jsp")
+    @Execute(validator = true, validate = "validateUserAuth, validateUserRole", input = "add.jsp")
     public String addCommit() throws AppException {
         if(maintainUserForm.submit.equals("戻る")) {
             return "add.jsp";
@@ -142,25 +140,41 @@ public class UserAction {
         mailDto.put("id", userAuth.email);
         mailDto.put("password", initPassword);
         (new MailUtil()).sendMail(mailDto, application.getRealPath("/WEB-INF/mail_template/account_create_mail.txt"));
-        return "commit.jsp";
+        return "/maintain/user/addDone?redirect=true";
+    }
+
+    @RoleLimited(role = Role.admin)
+    @Execute(validator=false)
+    public String addDone() {
+        return "addDone.jsp";
     }
 
     /**
-     * ユーザ追加時の入力チェック.<br>
+     * ユーザ認証情報の入力チェック.<br>
+     *
+     * @return ActionMessage
+     */
+    public ActionMessages validateUserAuth() {
+        ActionMessages result = new ActionMessages();
+
+        /* -- ユーザ重複チェック -- */
+        if(userAuthService.userExists(maintainUserForm.email)) {
+            result.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("errors.userDuplication"));
+        }
+        return result;
+    }
+
+    /**
+     * ユーザロールの入力チェック.<br>
      *
      * @return ActionMessages
      */
-    public ActionMessages validateNewUser() {
+    public ActionMessages validateUserRole() {
         ActionMessages result = new ActionMessages();
 
         /* -- 未選択チェック -- */
         if(maintainUserForm.roles == null || maintainUserForm.roles.length == 0) {
             result.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("errors.roleEmpty"));
-        }
-
-        /* -- ユーザ重複チェック -- */
-        if(userAuthService.userExists(maintainUserForm.email)) {
-            result.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("errors.userDuplication"));
         }
 
         /* -- ロール存在チェック -- */
@@ -191,9 +205,48 @@ public class UserAction {
     /* -- 編集 ------------------------------------------------------------------------------------------------------ */
 
     @RoleLimited(role = Role.admin)
-    @Execute(validator = false)
-    public String edit() {
-        roles = Role.values();
+    @Execute(validator = false, validate="validateUserEdit", input="index.jsp")
+    public String edit() throws AppException {
+        maintainUserForm.email = userAuthService.findById(maintainUserForm.userId).email;
+        maintainUserForm.roles = userRoleService.getRoleNames(maintainUserForm.userId);
         return "edit.jsp";
+    }
+
+    @RoleLimited(role = Role.admin)
+    @Execute(validator = false, validate="validateUserRole", input="edit.jsp")
+    public String editConfirm() {
+        return "editConfirm.jsp";
+    }
+
+    @Execute(validator = true, validate = "validateUserRole", input = "edit.jsp")
+    @RoleLimited(role = Role.admin)
+    public String editCommit() {
+        if(maintainUserForm.submit.equals("戻る")) {
+            return "edit.jsp";
+        }
+        return "/maintain/user/editDone?redirect=true";
+    }
+
+    @Execute(validator = false)
+    @RoleLimited(role = Role.admin)
+    public String editDone() {
+        return "editDone.jsp";
+    }
+
+    public ActionMessages validateUserEdit() {
+        ActionMessages result = new ActionMessages();
+
+        // ユーザID未指定
+        if(maintainUserForm == null || maintainUserForm.userId == null) {
+            result.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("errors.undefined.userId"));
+            return result;
+        }
+
+        // ユーザID存在チェック
+        if(userAuthService.findById(maintainUserForm.userId) == null) {
+            result.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("errors.notFound.userId"));
+            return result;
+        }
+        return result;
     }
 }

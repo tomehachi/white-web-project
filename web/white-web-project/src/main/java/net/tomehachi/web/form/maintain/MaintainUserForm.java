@@ -16,8 +16,12 @@ public class MaintainUserForm implements Serializable {
     @Maxlength(maxlength = 128, arg0 = @Arg(key = "メールアドレス", resource = false))
     public String email;
 
+    /** 編集時のみ使用(登録時は使用しない) */
+    public Integer userId;
+
     public String[] roles = new String[]{};
 
+    /** 存在する全ロール */
     public Role[] roleEnum = Role.values();
 
     public String submit;
