@@ -1,0 +1,10 @@
+To: {name}さん
+
+white-web-project システムメールです。
+
+あなたのアカウントが作成されましたので、ご連絡致します。
+ID:       {id}
+PASSWORD: {password}
+
+
+--

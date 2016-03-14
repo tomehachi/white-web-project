@@ -1,0 +1,11 @@
+/** パスワード生成 */
+System.out.println(
+        net.tomehachi.web.util.SecurityUtil.randomString(8)
+)
+⇒ ~Uor3{R"
+
+
+/** パスワード暗号化 */
+System.out.println(
+        net.tomehachi.web.util.SecurityUtil.encode("~Uor3{R\"")
+)

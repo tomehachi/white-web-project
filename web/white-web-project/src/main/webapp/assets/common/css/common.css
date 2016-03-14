@@ -1,0 +1,65 @@
+@charset "UTF-8";
+
+body, th, td, span, div, p, h1, h2, h3, h4, h5, h6, h7 {
+    font-family: 'ヒラギノ角ゴ ProN W3', 'Lucida Grande', 'Hiragino Kaku Gothic ProN', 'Meiryo', 'メイリオ', sans-serif;
+}
+pre, code {
+    font-family: 'Consolas', 'ヒラギノ角ゴ ProN W3', 'Lucida Grande', 'Hiragino Kaku Gothic ProN', 'Meiryo', 'メイリオ', sans-serif;
+}
+body, th, td, div, span, p {
+    font-size: 12px;
+}
+
+h2.page-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* パネルヘッダのタイトル定義 */
+.panel-heading h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+
+.content-container {
+    padding-bottom: 80px;
+}
+
+.header-container {
+    height: 80px;
+}
+
+.footer-panel {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    border-radius: 0px;
+    margin-top: 20px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    z-index: 1001;
+}
+
+.affix {
+    top: 0;
+    width: 100%;
+}
+
+.affix + .container-fluid {
+    padding-top: 70px;
+}
+
+.navbar {
+    border-radius: 0px;
+    z-index: 1000;
+}
+
+/* -- チェックボックスがちょっと下目についているのを補正 ------------------------------------------------------------ */
+
+input[type='checkbox'] {
+    position: relative;
+    top: -3px;
+}

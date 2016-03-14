@@ -1,0 +1,8 @@
+DaoType=S2JDBC
+DefaultResourcePath=/white-web-project/src/main/resources
+DefaultRootPackage=net.tomehachi.web
+DefaultSrcPath=/white-web-project/src/main/java
+ServletPath=white-web-project
+ViewType=SA-Struts
+WebContentsRoot=src/main/webapp
+eclipse.preferences.version=1

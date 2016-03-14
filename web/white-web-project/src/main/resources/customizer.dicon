@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.4//EN"
+    "http://www.seasar.org/dtd/components24.dtd">
+<components>
+    <include path="default-customizer.dicon"/>
+
+    <component name="formCustomizer" class="org.seasar.framework.container.customizer.CustomizerChain"/>
+    <component name="actionCustomizer" class="org.seasar.framework.container.customizer.CustomizerChain">
+        <initMethod name="addAspectCustomizer">
+            <arg>"actionMessagesThrowsInterceptor"</arg>
+        </initMethod>
+        <initMethod name="addCustomizer">
+            <arg>traceCustomizer</arg>
+        </initMethod>
+        <initMethod name="addCustomizer">
+            <arg>
+                <component class="org.seasar.framework.container.customizer.TxAttributeCustomizer"/>
+            </arg>
+        </initMethod>
+        <initMethod name="addCustomizer">
+            <arg>
+                <component class="org.seasar.struts.customizer.ActionCustomizer"/>
+            </arg>
+        </initMethod>
+
+        <initMethod name="addCustomizer">
+            <arg>
+                <component class="org.seasar.framework.container.customizer.AspectCustomizer">
+                    <property name="interceptorName">"errorHandleInterceptor"</property>
+                </component>
+            </arg>
+        </initMethod>
+
+        <!-- 認証用インターセプターを追加 -->
+<!--         <initMethod name="addCustomizer"> -->
+<!--             <arg> -->
+<!--                 <component class="org.seasar.framework.container.customizer.AspectCustomizer"> -->
+<!--                     <property name="interceptorName">"loginCheckInterceptor"</property> -->
+<!--                 </component> -->
+<!--             </arg> -->
+<!--         </initMethod> -->
+<!--         <initMethod name="addCustomizer"> -->
+<!--             <arg> -->
+<!--                 <component class="org.seasar.framework.container.customizer.AspectCustomizer"> -->
+<!--                     <property name="interceptorName">"roleCheckInterceptor"</property> -->
+<!--                 </component> -->
+<!--             </arg> -->
+<!--         </initMethod> -->
+    </component>
+
+    <component name="serviceCustomizer" class="org.seasar.framework.container.customizer.CustomizerChain">
+        <initMethod name="addCustomizer">
+            <arg>traceCustomizer</arg>
+        </initMethod>
+        <initMethod name="addCustomizer">
+            <arg>
+                <component class="org.seasar.framework.container.customizer.TxAttributeCustomizer"/>
+            </arg>
+        </initMethod>
+    </component>
+
+</components>
