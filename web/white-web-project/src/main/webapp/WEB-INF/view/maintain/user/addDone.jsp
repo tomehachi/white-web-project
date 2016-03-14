@@ -1,5 +1,3 @@
-<%@page import="net.tomehachi.web.annotation.Role"%>
-
 <tiles:insert template="/WEB-INF/view/default-parts/layout.jsp" flush="true">
 
     <tiles:put name="title">${pageTitle} | ${siteName }</tiles:put>

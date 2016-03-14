@@ -3,6 +3,7 @@ package net.tomehachi.web.action.maintain;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -88,8 +89,8 @@ public class UserAction {
         return "add.jsp";
     }
 
-    @Execute(validator = true, validate = "validateUserAuth, validateUserRole", input = "add.jsp")
     @RoleLimited(role = Role.admin)
+    @Execute(validator = true, validate = "validateUserAuth, validateUserRole", input = "add.jsp")
     public String addConfirm() {
         return "addConfirm.jsp";
     }
@@ -218,17 +219,31 @@ public class UserAction {
         return "editConfirm.jsp";
     }
 
-    @Execute(validator = true, validate = "validateUserRole", input = "edit.jsp")
     @RoleLimited(role = Role.admin)
+    @Execute(validator = true, validate = "validateUserEdit, validateUserRole", input = "edit.jsp")
     public String editCommit() {
         if(maintainUserForm.submit.equals("戻る")) {
             return "edit.jsp";
         }
+        // ロール削除
+        List<UserRole> roles = userRoleService.findByUserId(maintainUserForm.userId);
+        for(UserRole role : roles) {
+            userRoleService.delete(role);
+        }
+        // ロール追加
+        for(String roleName : maintainUserForm.roles) {
+            UserRole roleDto = new UserRole();
+            roleDto.userId = maintainUserForm.userId;
+            roleDto.role = roleName;
+            roleDto.createdAt = new Timestamp((new Date()).getTime());
+            roleDto.updatedAt = new Timestamp((new Date()).getTime());
+            userRoleService.insert(roleDto);
+        }
         return "/maintain/user/editDone?redirect=true";
     }
 
-    @Execute(validator = false)
     @RoleLimited(role = Role.admin)
+    @Execute(validator = false)
     public String editDone() {
         return "editDone.jsp";
     }

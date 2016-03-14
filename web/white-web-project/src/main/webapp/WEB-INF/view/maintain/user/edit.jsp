@@ -1,4 +1,3 @@
-<%@page import="net.tomehachi.web.annotation.Role"%>
 <tiles:insert template="/WEB-INF/view/default-parts/layout.jsp" flush="true">
 
     <tiles:put name="title">ユーザ編集 | ${siteName }</tiles:put>
@@ -64,6 +63,7 @@
                         <html:errors property="roles" />
                     </div>
                 </div>
+                <input type="hidden" name="userId" value="${userId }">
                 <input type="hidden" name="email" value="${email }">
                 <input type="submit" class="btn btn-primary" value="登録確認">
                 <input type="reset" class="btn btn-default" value="リセット">

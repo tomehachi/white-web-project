@@ -1,5 +1,3 @@
-<%@page import="net.tomehachi.web.annotation.Role"%>
-
 <tiles:insert template="/WEB-INF/view/default-parts/layout.jsp" flush="true">
 
     <tiles:put name="title">${pageTitle} | ${siteName }</tiles:put>
@@ -41,10 +39,9 @@
                 </div>
                 <div class="panel-body">
                     このユーザに付与する権限は以下です。
-                    <c:set var="roleModel"><%= Role.admin %></c:set>
                     <div class="checkbox">
-                        <c:forEach items="${maintainUserForm.roles }" var="role">
-                            <%= Role.valueOf((String)pageContext.getAttribute("role")).name %>
+                        <c:forEach items="${roleEnum }" var="roleElement">
+                            <c:if test="${fn:contains(roles, roleElement) }">${roleElement.name }</c:if>
                         </c:forEach>
                     </div>
                     <html:errors property="roles" />
@@ -54,7 +51,8 @@
             <form action="${contextPath }/maintain/user/editCommit" method="POST" autocomplete="off">
                 <div class="row">
                     <div class="col-md-6 col-md-offset">
-                        <input type="hidden" name="email" value="${maintainUserForm.email }">
+                        <input type="hidden" name="userId" value="${userId }">
+                        <input type="hidden" name="email" value="${email }">
                         <c:forEach items="${maintainUserForm.roles }" varStatus="stat" var="role">
                             <input type="hidden" name="roles[${stat.index }]" value="${role }">
                         </c:forEach>

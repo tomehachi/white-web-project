@@ -1,4 +1,3 @@
-<%@page import="net.tomehachi.web.annotation.Role"%>
 <tiles:insert template="/WEB-INF/view/default-parts/layout.jsp" flush="true">
 
     <tiles:put name="title">${pageTitle} | ${siteName }</tiles:put>
@@ -53,7 +52,7 @@
                         付与する権限を以下から選んでください。
                         <div class="checkbox">
                             <c:forEach items="${roleEnum }" var="roleElement">
-                            <label><input type="checkbox" name="roles" value="${roleElement }"> ${roleElement.name }</label>　
+                            <label><input type="checkbox" name="roles" value="${roleElement }" <c:if test="${fn:contains(maintainUserForm.roles, roleElement) }">checked="checked"</c:if>> ${roleElement.name }</label>　
                             </c:forEach>
                         </div>
                         <html:errors property="roles" />

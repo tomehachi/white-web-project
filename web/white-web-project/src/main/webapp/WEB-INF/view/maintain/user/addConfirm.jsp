@@ -41,10 +41,9 @@
                 </div>
                 <div class="panel-body">
                     このユーザに付与する権限は以下です。
-                    <c:set var="roleModel"><%= Role.admin %></c:set>
                     <div class="checkbox">
-                        <c:forEach items="${maintainUserForm.roles }" var="role">
-                            <%= Role.valueOf((String)pageContext.getAttribute("role")).name %>
+                        <c:forEach items="${roleEnum }" var="roleElement">
+                            <c:if test="${fn:contains(maintainUserForm.roles, roleElement) }">${roleElement.name }</c:if>
                         </c:forEach>
                     </div>
                     <html:errors property="roles" />
