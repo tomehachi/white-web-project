@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-
 # 概要
 
 このプロジェクトは、業務系Webアプリケーションを簡単に実装し、即時運用開始することを目的に、通常作るであろう機能を予め実装済みの状態を保存したWebプロジェクトです。
@@ -13,4 +11,10 @@
 開発言語|Java (JDK7)
 使用フレームワーク|Seasar2
 
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<style>
+  h1 {font-size: 24px; font-weight: bold;}
+  h2 {font-size: 18px; font-weight: bold;}
+</style>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
