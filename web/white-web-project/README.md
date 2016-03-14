@@ -9,12 +9,23 @@
 アプリケーションサーバ|Tomcat7
 データベース|MySQL
 開発言語|Java (JDK7)
-使用フレームワーク|Seasar2
+使用フレームワーク|Seasar2 (Mavenプロジェクト)
+使用ライブラリ|JSONIC<br>Apache fluent<br>JavaMail<br>MySQL JDBC<br>※ POM.xml 末尾に定義
 
+## 提供機能
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<style>
-  h1 {font-size: 24px; font-weight: bold;}
-  h2 {font-size: 18px; font-weight: bold;}
-</style>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+予め実装してある機能は以下です。 ※ 随時追加中
+
+- 認証
+  - サインイン
+  - サインアウト
+  - パスワード忘れ対応のための仮認証
+  - Bot検知用 CAPTCHA機能
+- アカウント管理
+  - アカウント追加
+  - アカウント編集
+    - ロール編集
+- メール通知
+  - アカウント作成通知
+  - パスワード忘れ用ワンタイムパスワード通知
+
