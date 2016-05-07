@@ -42,13 +42,22 @@
         </div>
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
+
+                <c:if test="${ empty userId }">
                 <div class="form-group">
                     <label for="email" class="control-label">メールアドレス(ログインID)</label>
                     <input type="text" id="email" class="form-control" name="email" placeholder="メールアドレス" value="${email }">
                     <html:errors property="email" />
                 </div>
+                </c:if>
+                <c:if test="${!empty userId }">
+                <div class="form-group">
+                    <label for="email" class="control-label">メールアドレス(ログインID)</label><br>
+                    ${f:h(email) }
+                </div>
+                </c:if>
 
-                <c:if test="${empty userId }">
+                <c:if test="${ empty userId }">
                 <div class="alert alert-warning">
                     作成するユーザの初期パスワードは、自動生成されます。<br>
                     生成されたパスワードは、ご本人に直接メールで通知されます。
