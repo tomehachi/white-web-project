@@ -4,13 +4,14 @@ import javax.annotation.Generated;
 import net.tomehachi.web.entity.AuthLogNames._AuthLogNames;
 import net.tomehachi.web.entity.ChangePasswordKeyNames._ChangePasswordKeyNames;
 import net.tomehachi.web.entity.UserAuthNames._UserAuthNames;
+import net.tomehachi.web.entity.UserProfileNames._UserProfileNames;
 import net.tomehachi.web.entity.UserRoleNames._UserRoleNames;
 
 /**
  * 名前クラスの集約です。
  * 
  */
-@Generated(value = {"S2JDBC-Gen 2.4.46", "org.seasar.extension.jdbc.gen.internal.model.NamesAggregateModelFactoryImpl"}, date = "2016/02/29 22:52:07")
+@Generated(value = {"S2JDBC-Gen 2.4.46", "org.seasar.extension.jdbc.gen.internal.model.NamesAggregateModelFactoryImpl"}, date = "2016/04/30 12:57:22")
 public class Names {
 
     /**
@@ -38,6 +39,15 @@ public class Names {
      */
     public static _UserAuthNames userAuth() {
         return new _UserAuthNames();
+    }
+
+    /**
+     * {@link UserProfile}の名前クラスを返します。
+     * 
+     * @return UserProfileの名前クラス
+     */
+    public static _UserProfileNames userProfile() {
+        return new _UserProfileNames();
     }
 
     /**

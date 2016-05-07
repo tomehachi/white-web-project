@@ -1,6 +1,5 @@
 package net.tomehachi.web.service;
 
-import static net.tomehachi.web.entity.UserAuthNames.*;
 import static org.seasar.extension.jdbc.operation.Operations.*;
 
 import java.util.List;
@@ -31,13 +30,21 @@ public class UserAuthService extends AbstractService<UserAuth> {
         return select().id(userId).getSingleResult();
     }
 
+    public UserAuth findFullRelationById(Integer userId) {
+        return select()
+                .leftOuterJoin("userProfile")
+                .leftOuterJoin("userRoleList")
+                .id(userId)
+                .getSingleResult();
+    }
+
     /**
      * 識別子の昇順ですべてのエンティティを検索します。
      *
      * @return エンティティのリスト
      */
     public List<UserAuth> findAllOrderById() {
-        return select().orderBy(asc(userId())).getResultList();
+        return select().orderBy(asc("userId")).getResultList();
     }
 
     public UserAuth findByEmail(String email) {
@@ -52,7 +59,7 @@ public class UserAuthService extends AbstractService<UserAuth> {
                 jdbcManager
                 .from(UserAuth.class)
                 .leftOuterJoin("userRoleList")
-                .orderBy(desc(userId()))
+                .orderBy(desc("userId"))
                 .getResultList();
 
         // パスワードは削除

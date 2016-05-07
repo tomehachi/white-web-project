@@ -6,11 +6,11 @@ import net.tomehachi.web.entity.UserAuthNames._UserAuthNames;
 import org.seasar.extension.jdbc.name.PropertyName;
 
 /**
- * {@link UserRole}のプロパティ名の集合です。
+ * {@link UserProfile}のプロパティ名の集合です。
  * 
  */
 @Generated(value = {"S2JDBC-Gen 2.4.46", "org.seasar.extension.jdbc.gen.internal.model.NamesModelFactoryImpl"}, date = "2016/04/30 12:57:22")
-public class UserRoleNames {
+public class UserProfileNames {
 
     /**
      * userIdのプロパティ名を返します。
@@ -22,12 +22,21 @@ public class UserRoleNames {
     }
 
     /**
-     * roleのプロパティ名を返します。
+     * firstNameのプロパティ名を返します。
      * 
-     * @return roleのプロパティ名
+     * @return firstNameのプロパティ名
      */
-    public static PropertyName<String> role() {
-        return new PropertyName<String>("role");
+    public static PropertyName<String> firstName() {
+        return new PropertyName<String>("firstName");
+    }
+
+    /**
+     * familyNameのプロパティ名を返します。
+     * 
+     * @return familyNameのプロパティ名
+     */
+    public static PropertyName<String> familyName() {
+        return new PropertyName<String>("familyName");
     }
 
     /**
@@ -60,12 +69,12 @@ public class UserRoleNames {
     /**
      * @author S2JDBC-Gen
      */
-    public static class _UserRoleNames extends PropertyName<UserRole> {
+    public static class _UserProfileNames extends PropertyName<UserProfile> {
 
         /**
          * インスタンスを構築します。
          */
-        public _UserRoleNames() {
+        public _UserProfileNames() {
         }
 
         /**
@@ -74,7 +83,7 @@ public class UserRoleNames {
          * @param name
          *            名前
          */
-        public _UserRoleNames(final String name) {
+        public _UserProfileNames(final String name) {
             super(name);
         }
 
@@ -86,7 +95,7 @@ public class UserRoleNames {
          * @param name
          *            名前
          */
-        public _UserRoleNames(final PropertyName<?> parent, final String name) {
+        public _UserProfileNames(final PropertyName<?> parent, final String name) {
             super(parent, name);
         }
 
@@ -100,12 +109,21 @@ public class UserRoleNames {
         }
 
         /**
-         * roleのプロパティ名を返します。
+         * firstNameのプロパティ名を返します。
          *
-         * @return roleのプロパティ名
+         * @return firstNameのプロパティ名
          */
-        public PropertyName<String> role() {
-            return new PropertyName<String>(this, "role");
+        public PropertyName<String> firstName() {
+            return new PropertyName<String>(this, "firstName");
+        }
+
+        /**
+         * familyNameのプロパティ名を返します。
+         *
+         * @return familyNameのプロパティ名
+         */
+        public PropertyName<String> familyName() {
+            return new PropertyName<String>(this, "familyName");
         }
 
         /**

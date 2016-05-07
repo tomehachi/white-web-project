@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+        web-jsptaglibrary_2_0.xsd"
+        version="2.0">
+    <tlib-version>2.0</tlib-version>
+
+    <function>
+        <name>collectionIncludes</name>
+        <function-class>net.tomehachi.web.util.CommonTagFunction</function-class>
+        <function-signature>
+            boolean collectionIncludes(java.lang.String, java.lang.String)
+        </function-signature>
+    </function>
+
+</taglib>

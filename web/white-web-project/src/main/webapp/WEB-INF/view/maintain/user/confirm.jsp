@@ -35,6 +35,11 @@
                 ${userForm.email }
             </div>
 
+            <div class="form-group">
+                お名前<br>
+                ${userForm.familyName } ${userForm.firstName }
+            </div>
+
             <div class="panel panel-info">
                 <div class="panel-heading">
                     権限
@@ -43,17 +48,23 @@
                     このユーザに付与する権限は以下です。
                     <div class="checkbox">
                         <c:forEach items="${roleEnum }" var="roleElement">
-                            <c:if test="${fn:contains(userForm.roles, roleElement) }">${roleElement.name }</c:if>
+                            <c:if test="${com:collectionIncludes(userForm.roles, roleElement) }">${roleElement.name }</c:if>
                         </c:forEach>
                     </div>
                     <html:errors property="roles" />
                 </div>
             </div>
 
-            <form action="${contextPath }/maintain/user/addCommit" method="POST" autocomplete="off">
+            <form <c:if test="${ empty userId }">action="${contextPath }/maintain/user/addCommit"</c:if>
+                  <c:if test="${!empty userId }">action="${contextPath }/maintain/user/editCommit"</c:if> method="POST" autocomplete="off">
                 <div class="row">
                     <div class="col-md-6 col-md-offset">
+                        <c:if test="${!empty userId }">
+                            <input type="hidden" name="userId" value="${userForm.userId }">
+                        </c:if>
                         <input type="hidden" name="email" value="${userForm.email }">
+                        <input type="hidden" name="familyName" value="${userForm.familyName }">
+                        <input type="hidden" name="firstName" value="${userForm.firstName }">
                         <c:forEach items="${userForm.roles }" varStatus="stat" var="role">
                             <input type="hidden" name="roles[${stat.index }]" value="${role }">
                         </c:forEach>

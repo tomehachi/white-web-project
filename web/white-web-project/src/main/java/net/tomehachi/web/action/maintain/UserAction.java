@@ -13,12 +13,14 @@ import net.tomehachi.web.annotation.Role;
 import net.tomehachi.web.annotation.RoleLimited;
 import net.tomehachi.web.entity.ChangePasswordKey;
 import net.tomehachi.web.entity.UserAuth;
+import net.tomehachi.web.entity.UserProfile;
 import net.tomehachi.web.entity.UserRole;
 import net.tomehachi.web.form.maintain.UserForm;
 import net.tomehachi.web.mail.MailDto;
 import net.tomehachi.web.mail.MailUtil;
 import net.tomehachi.web.service.ChangePasswordKeyService;
 import net.tomehachi.web.service.UserAuthService;
+import net.tomehachi.web.service.UserProfileService;
 import net.tomehachi.web.service.UserRoleService;
 import net.tomehachi.web.util.AppException;
 import net.tomehachi.web.util.SecurityUtil;
@@ -44,6 +46,10 @@ public class UserAction {
     /** ユーザ認証サービス */
     @Resource
     protected UserAuthService userAuthService;
+
+    /** ユーザプロフィールサービス */
+    @Resource
+    protected UserProfileService userProfileService;
 
     /** ユーザロールサービス */
     @Resource
@@ -86,26 +92,26 @@ public class UserAction {
     @RoleLimited(role = Role.admin)
     @Execute(validator = false)
     public String add() {
-        return "add.jsp";
+        return "edit.jsp";
     }
 
     @RoleLimited(role = Role.admin)
     @Execute(validator = true, validate = "validateUserAuth, validateUserRole", input = "add.jsp")
     public String addConfirm() {
-        return "addConfirm.jsp";
+        return "confirm.jsp";
     }
 
     @RoleLimited(role = Role.admin)
     @Execute(validator = true, validate = "validateUserAuth, validateUserRole", input = "add.jsp")
     public String addCommit() throws AppException {
         if(userForm.submit.equals("戻る")) {
-            return "add.jsp";
+            return "edit.jsp";
         }
 
         // ユーザの初期パスワードを生成
         String initPassword = SecurityUtil.randomString(64);
 
-        // ユーザ認証情報の作成
+        // ユーザ認証情報の登録
         UserAuth userAuth = new UserAuth();
         userAuth.email = userForm.email;
         userAuth.password = SecurityUtil.encode(initPassword);
@@ -117,8 +123,8 @@ public class UserAction {
         Integer userId = jdbcManager.selectBySql(
                 Integer.class, "SELECT LAST_INSERT_ID() FROM user_auth LIMIT 1").getSingleResult();
 
+        // ユーザロールの登録
         for(String role : userForm.roles) {
-            // ユーザロールの作成
             UserRole userRole = new UserRole();
             userRole.userId = userId;
             userRole.role = role;
@@ -126,6 +132,13 @@ public class UserAction {
             userRole.updatedAt = new Timestamp(new Date().getTime());
             userRoleService.insert(userRole);
         }
+
+        // ユーザプロフィールの登録
+        UserProfile userProfile = new UserProfile();
+        userProfile.userId = userId;
+        userProfile.familyName = userForm.familyName;
+        userProfile.firstName = userForm.firstName;
+        userProfileService.insert(userProfile);
 
         // パスワード変更認証キーの初期レコード作成
         ChangePasswordKey changePasswordKey = new ChangePasswordKey();
@@ -141,13 +154,13 @@ public class UserAction {
         mailDto.put("id", userAuth.email);
         mailDto.put("password", initPassword);
         (new MailUtil()).sendMail(mailDto, application.getRealPath("/WEB-INF/mail_template/account_create_mail.txt"));
-        return "/maintain/user/addDone?redirect=true";
+        return "/maintain/user/done?redirect=true";
     }
 
     @RoleLimited(role = Role.admin)
     @Execute(validator=false)
-    public String addDone() {
-        return "addDone.jsp";
+    public String done() {
+        return "done.jsp";
     }
 
     /**
@@ -175,7 +188,7 @@ public class UserAction {
 
         /* -- 未選択チェック -- */
         if(userForm.roles == null || userForm.roles.length == 0) {
-            result.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("errors.roleEmpty"));
+            result.add("roles", new ActionMessage("errors.roleEmpty"));
         }
 
         /* -- ロール存在チェック -- */
@@ -187,7 +200,7 @@ public class UserAction {
                 }
             }
             if(!isValidRoleName) {
-                result.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("errors.invalidRole"));
+                result.add("roles", new ActionMessage("errors.invalidRole"));
             }
         }
 
@@ -195,7 +208,7 @@ public class UserAction {
         Set<String> uniqueRoles = new HashSet<String>();
         for(String role: userForm.roles) {
             if(uniqueRoles.contains(role)) {
-                result.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("errors.roleDuplication"));
+                result.add("roles", new ActionMessage("errors.roleDuplication"));
             } else {
                 uniqueRoles.add(role);
             }
@@ -205,10 +218,24 @@ public class UserAction {
 
     /* -- 編集 ------------------------------------------------------------------------------------------------------ */
 
+    /**
+     * ユーザ情報編集画面<br>
+     *
+     * @return 編集画面
+     * @throws AppException
+     */
     @RoleLimited(role = Role.admin)
     @Execute(validator = false, validate="validateUserEdit", input="index.jsp")
     public String edit() throws AppException {
+        // ユーザ認証情報からメールアドレスを取得
         userForm.email = userAuthService.findById(userForm.userId).email;
+
+        // ユーザプロフィール情報を取得
+        UserProfile userProfile = userProfileService.findById(userForm.userId);
+        userForm.familyName = userProfile.familyName;
+        userForm.firstName = userProfile.firstName;
+
+        // ユーザロール情報から保持ロールを取得
         userForm.roles = userRoleService.getRoleNames(userForm.userId);
         return "edit.jsp";
     }
@@ -216,7 +243,7 @@ public class UserAction {
     @RoleLimited(role = Role.admin)
     @Execute(validator = false, validate="validateUserRole", input="edit.jsp")
     public String editConfirm() {
-        return "editConfirm.jsp";
+        return "confirm.jsp";
     }
 
     @RoleLimited(role = Role.admin)
@@ -239,15 +266,14 @@ public class UserAction {
             roleDto.updatedAt = new Timestamp((new Date()).getTime());
             userRoleService.insert(roleDto);
         }
-        return "/maintain/user/editDone?redirect=true";
+        return "/maintain/user/done?redirect=true";
     }
 
-    @RoleLimited(role = Role.admin)
-    @Execute(validator = false)
-    public String editDone() {
-        return "editDone.jsp";
-    }
-
+    /**
+     * 編集用バリデーション<br>
+     *
+     * @return
+     */
     public ActionMessages validateUserEdit() {
         ActionMessages result = new ActionMessages();
 

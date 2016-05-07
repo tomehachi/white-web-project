@@ -14,8 +14,11 @@ import org.seasar.framework.container.annotation.tiger.InstanceType;
 public class UserDataDto implements Serializable {
     public Integer userId;
     public String requestedUrl = "";
-
     public Boolean isTemporary = false;
+
+    public Integer getUserId() {
+        return this.userId;
+    }
 
     public boolean isSignedIn() {
         return userId != null && isTemporary != null && !isTemporary;

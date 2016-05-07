@@ -15,9 +15,19 @@
  */
 package net.tomehachi.web.action;
 
+import javax.annotation.Resource;
+
+import net.arnx.jsonic.JSON;
+import net.tomehachi.web.dto.AjaxResultDto;
+import net.tomehachi.web.dto.UserDataDto;
+import net.tomehachi.web.dto.UserStatusDto;
+import net.tomehachi.web.entity.UserAuth;
+import net.tomehachi.web.service.UserAuthService;
+
 import org.seasar.framework.aop.annotation.InvalidateSession;
 import org.seasar.framework.aop.annotation.RemoveSession;
 import org.seasar.struts.annotation.Execute;
+import org.seasar.struts.util.ResponseUtil;
 
 /**
  * トップ画面アクションクラス.<br>
@@ -25,6 +35,12 @@ import org.seasar.struts.annotation.Execute;
  * @author tomehachi
  */
 public class IndexAction {
+
+    @Resource
+    public UserAuthService userAuthService;
+
+    @Resource
+    UserDataDto userDataDto;
 
     /**
      * トップ画面表示
@@ -48,4 +64,25 @@ public class IndexAction {
         return "/?redirect=true";
     }
 
+    /**
+     * Ajax ユーザの状態
+     * @return
+     */
+    @Execute(validator = false)
+    public String userStatus() {
+        if(userDataDto.isSignedIn()) {
+            UserAuth userAuth = userAuthService.findFullRelationById(userDataDto.userId);
+            AjaxResultDto ajaxResult = new AjaxResultDto();
+            UserStatusDto userStatus = new UserStatusDto();
+            userStatus.email = userAuth.email;
+            userStatus.name = userAuth.userProfile.familyName + userAuth.userProfile.firstName;
+            ajaxResult.result = userStatus;
+
+            ResponseUtil.write(JSON.encode(ajaxResult));
+            return null;
+
+        } else {
+            return null;
+        }
+    }
 }

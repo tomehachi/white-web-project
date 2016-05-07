@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="${contextPath }/"><i class="fa fa-pagelines"></i></a>
+            <a class="navbar-brand" href="${contextPath }/"><i class="fa fa-pagelines"></i>&nbsp;tomehachi.net</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
             <ul class="nav navbar-nav">
@@ -20,6 +20,8 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="${contextPath }/maintain/user">ユーザ一覧</a></li>
                         <li><a href="${contextPath }/maintain/user/add">ユーザ追加</a></li>
+                        <li class="divider"></li>
+                        <li><a href="${contextPath }/maintain/manual">マニュアル編集</a>
                     </ul>
                 </li>
                 <li class="dropdown">

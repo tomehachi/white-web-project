@@ -10,12 +10,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 /**
- * ChangePasswordKeyエンティティクラス
+ * UserProfileエンティティクラス
  * 
  */
 @Entity
 @Generated(value = {"S2JDBC-Gen 2.4.46", "org.seasar.extension.jdbc.gen.internal.model.EntityModelFactoryImpl"}, date = "2016/04/30 12:56:39")
-public class ChangePasswordKey implements Serializable {
+public class UserProfile implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,21 +24,21 @@ public class ChangePasswordKey implements Serializable {
     @Column(precision = 10, nullable = false, unique = true)
     public Integer userId;
 
-    /** changePasswordKeyプロパティ */
-    @Column(length = 128, nullable = true, unique = false)
-    public String changePasswordKey;
+    /** firstNameプロパティ */
+    @Column(length = 64, nullable = false, unique = false)
+    public String firstName;
 
-    /** doneプロパティ */
-    @Column(nullable = false, unique = false)
-    public Boolean done;
-
-    /** expiredAtプロパティ */
-    @Column(nullable = false, unique = false)
-    public Timestamp expiredAt;
+    /** familyNameプロパティ */
+    @Column(length = 64, nullable = false, unique = false)
+    public String familyName;
 
     /** createdAtプロパティ */
     @Column(nullable = false, unique = false)
     public Timestamp createdAt;
+
+    /** updatedAtプロパティ */
+    @Column(nullable = false, unique = false)
+    public Timestamp updatedAt;
 
     /** userAuth関連プロパティ */
     @OneToOne

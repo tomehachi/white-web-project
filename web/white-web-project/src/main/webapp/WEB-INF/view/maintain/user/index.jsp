@@ -7,8 +7,8 @@
     </tiles:put>
 
     <tiles:put name="javascript" type="string">
-    <script src="${contextPath}/assets/bootstrap-table/bootstrap-table.min.js"></script>
-    <script src="${contextPath}/assets/bootstrap-table/locale/bootstrap-table-ja-JP.min.js"></script>
+    <script src="${contextPath}/assets/bootstrap-table/bootstrap-table.js"></script>
+    <script src="${contextPath}/assets/bootstrap-table/locale/bootstrap-table-ja-JP.js"></script>
     <script src="${contextPath}/assets/bootstrap-table/extensions/filter-control/bootstrap-table-filter-control.js"></script>
     <script>
     var roleFormatter = function(value, row, index) {
@@ -34,7 +34,7 @@
             + ":" + (date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds());
     };
     var controls = function(value, row, index) {
-        return controlsHtml.replace(/\{0\}/, value);
+        return controlsHtml.replace(/\{0\}/, row.userId);
     };
     var controlsHtml = (function() {/*
         <a href="${contextPath }/maintain/user/edit/?userId={0}" class="btn btn-primary btn-sm">編集</a>
@@ -70,7 +70,7 @@
                 <th data-field="userRoleList" data-formatter="roleFormatter" data-filter-control="input">ロール</th>
                 <th data-field="createdAt" data-formatter="dateFormatter" data-sortable="true">登録日</th>
                 <th data-field="updatedAt" data-formatter="dateFormatter" data-sortable="true">更新日</th>
-                <th data-field="userId" data-formatter="controls">操作</th>
+                <th data-formatter="controls">操作</th>
             </tr>
         </thead>
     </table>

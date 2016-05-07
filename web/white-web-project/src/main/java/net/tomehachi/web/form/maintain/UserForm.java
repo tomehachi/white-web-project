@@ -16,6 +16,14 @@ public class UserForm implements Serializable {
     @Maxlength(maxlength = 128, arg0 = @Arg(key = "メールアドレス", resource = false))
     public String email;
 
+    @Required(arg0 = @Arg(key = "姓", resource = false))
+    @Maxlength(maxlength = 64, arg0 = @Arg(key = "名", resource = false))
+    public String familyName;
+
+    @Required(arg0 = @Arg(key = "メールアドレス", resource = false))
+    @Maxlength(maxlength = 64, arg0 = @Arg(key = "メールアドレス", resource = false))
+    public String firstName;
+
     /** 編集時のみ使用(登録時は使用しない) */
     public Integer userId;
 

@@ -10,9 +10,29 @@ body, th, td, div, span, p {
     font-size: 12px;
 }
 
+h1 {
+    font-size: 24px;
+    border-bottom: 1px solid #eef;
+}
+h2 {
+    font-size: 20px;
+    border-left: 6px solid #eef;
+    border-bottom: 1px solid #eef;
+    padding-left: 8px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+h1.site-title {
+    font-size: 24px;
+    border: 0px solid #000;
+}
+
 h2.page-title {
     font-size: 24px;
     font-weight: bold;
+    border-radius: 10px;
+    background-color: #fafaff;
 }
 
 /* パネルヘッダのタイトル定義 */
@@ -29,6 +49,14 @@ h2.page-title {
 
 .header-container {
     height: 80px;
+}
+
+.header-info-heading {
+    margin-top: 10px;
+}
+
+.header-info-body {
+    padding: 5px;
 }
 
 .footer-panel {

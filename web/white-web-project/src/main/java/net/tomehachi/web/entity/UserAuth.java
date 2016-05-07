@@ -17,7 +17,7 @@ import javax.persistence.OneToOne;
  * 
  */
 @Entity
-@Generated(value = {"S2JDBC-Gen 2.4.46", "org.seasar.extension.jdbc.gen.internal.model.EntityModelFactoryImpl"}, date = "2016/02/29 22:50:40")
+@Generated(value = {"S2JDBC-Gen 2.4.46", "org.seasar.extension.jdbc.gen.internal.model.EntityModelFactoryImpl"}, date = "2016/04/30 12:56:39")
 public class UserAuth implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,6 +47,10 @@ public class UserAuth implements Serializable {
     /** changePasswordKey関連プロパティ */
     @OneToOne(mappedBy = "userAuth")
     public ChangePasswordKey changePasswordKey;
+
+    /** userProfile関連プロパティ */
+    @OneToOne(mappedBy = "userAuth")
+    public UserProfile userProfile;
 
     /** userRoleList関連プロパティ */
     @OneToMany(mappedBy = "userAuth")

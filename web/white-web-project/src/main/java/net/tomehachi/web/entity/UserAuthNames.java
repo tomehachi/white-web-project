@@ -3,6 +3,7 @@ package net.tomehachi.web.entity;
 import java.sql.Timestamp;
 import javax.annotation.Generated;
 import net.tomehachi.web.entity.ChangePasswordKeyNames._ChangePasswordKeyNames;
+import net.tomehachi.web.entity.UserProfileNames._UserProfileNames;
 import net.tomehachi.web.entity.UserRoleNames._UserRoleNames;
 import org.seasar.extension.jdbc.name.PropertyName;
 
@@ -10,7 +11,7 @@ import org.seasar.extension.jdbc.name.PropertyName;
  * {@link UserAuth}のプロパティ名の集合です。
  * 
  */
-@Generated(value = {"S2JDBC-Gen 2.4.46", "org.seasar.extension.jdbc.gen.internal.model.NamesModelFactoryImpl"}, date = "2016/02/29 22:52:07")
+@Generated(value = {"S2JDBC-Gen 2.4.46", "org.seasar.extension.jdbc.gen.internal.model.NamesModelFactoryImpl"}, date = "2016/04/30 12:57:22")
 public class UserAuthNames {
 
     /**
@@ -65,6 +66,15 @@ public class UserAuthNames {
      */
     public static _ChangePasswordKeyNames changePasswordKey() {
         return new _ChangePasswordKeyNames("changePasswordKey");
+    }
+
+    /**
+     * userProfileのプロパティ名を返します。
+     * 
+     * @return userProfileのプロパティ名
+     */
+    public static _UserProfileNames userProfile() {
+        return new _UserProfileNames("userProfile");
     }
 
     /**
@@ -161,6 +171,15 @@ public class UserAuthNames {
          */
         public _ChangePasswordKeyNames changePasswordKey() {
             return new _ChangePasswordKeyNames(this, "changePasswordKey");
+        }
+
+        /**
+         * userProfileのプロパティ名を返します。
+         * 
+         * @return userProfileのプロパティ名
+         */
+        public _UserProfileNames userProfile() {
+            return new _UserProfileNames(this, "userProfile");
         }
 
         /**

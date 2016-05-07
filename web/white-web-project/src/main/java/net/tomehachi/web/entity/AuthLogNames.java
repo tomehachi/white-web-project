@@ -8,7 +8,7 @@ import org.seasar.extension.jdbc.name.PropertyName;
  * {@link AuthLog}のプロパティ名の集合です。
  * 
  */
-@Generated(value = {"S2JDBC-Gen 2.4.46", "org.seasar.extension.jdbc.gen.internal.model.NamesModelFactoryImpl"}, date = "2016/02/29 22:52:07")
+@Generated(value = {"S2JDBC-Gen 2.4.46", "org.seasar.extension.jdbc.gen.internal.model.NamesModelFactoryImpl"}, date = "2016/04/30 12:57:22")
 public class AuthLogNames {
 
     /**

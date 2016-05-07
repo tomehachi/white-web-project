@@ -7,5 +7,9 @@
 <%@taglib prefix="tiles" uri="http://jakarta.apache.org/struts/tags-tiles"%>
 <%@taglib prefix="s" uri="http://sastruts.seasar.org" %>
 <%@taglib prefix="f" uri="http://sastruts.seasar.org/functions" %>
+<%@taglib prefix="com" uri="/WEB-INF/common.tld" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <c:set var="siteName" value="tomehachi.net" />
+
+<%-- ユーザ情報をページコンテキストに追加 --%>
+<% pageContext.setAttribute("userDataDto", request.getSession().getAttribute("userDataDto")); %>
