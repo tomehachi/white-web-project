@@ -1,7 +1,8 @@
+DROP TABLE IF EXISTS user_profile;
 DROP TABLE IF EXISTS change_password_key;
 DROP TABLE IF EXISTS user_role;
-DROP TABLE IF EXISTS user_auth;
 DROP TABLE IF EXISTS auth_log;
+DROP TABLE IF EXISTS user_auth;
 
 /* -- 認証に用いる情報 -- */
 CREATE TABLE user_auth (
@@ -44,7 +45,18 @@ CREATE TABLE change_password_key (
     FOREIGN KEY (user_id) REFERENCES user_auth (user_id)
 ) COMMENT 'パスワード変更認証キー';
 
-INSERT INTO user_auth ( email, password ) VALUES ('admin@white-web-project.com','2758127b442d9eb145c7f5ad5294d5a594948db6bb592ffbf8edbedfdae99f8103bfa178decfc70f47bc496df2b225b48698053200a173d4e0b91ea506580');
+CREATE TABLE user_profile (
+    user_id INT COMMENT 'ユーザID',
+    first_name VARCHAR(64) NOT NULL COMMENT '名',
+    family_name VARCHAR(64) NOT NULL COMMENT '姓',
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PRIMARY KEY (user_id),
+    FOREIGN KEY (user_id) REFERENCES user_auth (user_id)
+) COMMENT 'ユーザプロフィール情報';
+
+INSERT INTO user_auth ( email, password ) VALUES ('webmaster@white-web-project.com','4c694b55c0303b31e932437cc38ca5a76f79bd8e8a3bd3cb18df33a53a2e2a068a549d6744ad16864913ea16172387a122cadc33f43ffc2b3de714f695e5');
 INSERT INTO user_role ( user_id, role ) VALUES ((SELECT LAST_INSERT_ID() FROM user_auth), 'admin');
 INSERT INTO user_role ( user_id, role ) VALUES ((SELECT LAST_INSERT_ID() FROM user_auth), 'user');
 INSERT INTO change_password_key ( user_id, done ) VALUES ((SELECT LAST_INSERT_ID() FROM user_auth), TRUE);
+INSERT INTO user_profile ( user_id, first_name, family_name, created_at, updated_at ) VALUES (1,'太郎','管理',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
