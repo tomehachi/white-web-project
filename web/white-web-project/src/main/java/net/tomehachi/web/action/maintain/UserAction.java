@@ -69,6 +69,11 @@ public class UserAction {
 
     /* -- index ----------------------------------------------------------------------------------------------------- */
 
+    /**
+     * ユーザ一覧
+     *
+     * @return ユーザ一覧
+     */
     @RoleLimited(role = Role.admin)
     @Execute(validator = false)
     public String index() {
@@ -89,21 +94,39 @@ public class UserAction {
 
     /* -- 追加 ------------------------------------------------------------------------------------------------------ */
 
+    /**
+     * ユーザ情報の追加入力画面
+     *
+     * @return ユーザの追加入力画面
+     */
     @RoleLimited(role = Role.admin)
     @Execute(validator = false)
     public String add() {
         return "edit.jsp";
     }
 
+    /**
+     * ユーザ情報の追加確認画面
+     *
+     * @return ユーザの追加確認画面
+     */
     @RoleLimited(role = Role.admin)
     @Execute(validator = true, validate = "validateUserAuth, validateUserRole", input = "add.jsp")
     public String addConfirm() {
         return "confirm.jsp";
     }
 
+    /**
+     * ユーザ情報の追加処理
+     *
+     * @return 完了画面へのリダイレクト
+     * @throws AppException
+     */
     @RoleLimited(role = Role.admin)
     @Execute(validator = true, validate = "validateUserAuth, validateUserRole", input = "add.jsp")
     public String addCommit() throws AppException {
+
+        // 戻るボタンが押されたときの処理
         if(userForm.submit.equals("戻る")) {
             return "edit.jsp";
         }
@@ -147,6 +170,7 @@ public class UserAction {
         changePasswordKey.done = true;
         changePasswordKeyService.insert(changePasswordKey);
 
+        // アカウント発行通知の送信
         MailDto mailDto = new MailDto();
         mailDto.setTo(userAuth.email);
         mailDto.setSubject("アカウント発行通知");
@@ -154,13 +178,9 @@ public class UserAction {
         mailDto.put("id", userAuth.email);
         mailDto.put("password", initPassword);
         (new MailUtil()).sendMail(mailDto, application.getRealPath("/WEB-INF/mail_template/account_create_mail.txt"));
-        return "/maintain/user/done?redirect=true";
-    }
 
-    @RoleLimited(role = Role.admin)
-    @Execute(validator=false)
-    public String done() {
-        return "done.jsp";
+        // 完了画面にリダイレクト
+        return "/maintain/user/done?redirect=true";
     }
 
     /**
@@ -219,9 +239,9 @@ public class UserAction {
     /* -- 編集 ------------------------------------------------------------------------------------------------------ */
 
     /**
-     * ユーザ情報編集画面<br>
+     * ユーザ情報の編集入力画面<br>
      *
-     * @return 編集画面
+     * @return ユーザ情報の編集入力画面
      * @throws AppException
      */
     @RoleLimited(role = Role.admin)
@@ -240,23 +260,44 @@ public class UserAction {
         return "edit.jsp";
     }
 
+    /**
+     * ユーザ情報の編集確認画面<br>
+     *
+     * @return ユーザ情報の編集確認画面
+     */
     @RoleLimited(role = Role.admin)
     @Execute(validator = false, validate="validateUserRole", input="edit.jsp")
     public String editConfirm() {
         return "confirm.jsp";
     }
 
+    /**
+     * ユーザ情報の編集コミット処理
+     *
+     * @return
+     */
     @RoleLimited(role = Role.admin)
     @Execute(validator = true, validate = "validateUserEdit, validateUserRole", input = "edit.jsp")
     public String editCommit() {
+
+        // 戻るボタンが押されたときの処理.
         if(userForm.submit.equals("戻る")) {
             return "edit.jsp";
         }
+
+        // ユーザプロフィール情報の更新
+        UserProfile userProfile = userProfileService.findById(userForm.userId);
+        userProfile.familyName = userForm.familyName;
+        userProfile.firstName = userForm.firstName;
+        userProfile.updatedAt = null;
+        userProfileService.update(userProfile);
+
         // ロール削除
         List<UserRole> roles = userRoleService.findByUserId(userForm.userId);
         for(UserRole role : roles) {
             userRoleService.delete(role);
         }
+
         // ロール追加
         for(String roleName : userForm.roles) {
             UserRole roleDto = new UserRole();
@@ -266,6 +307,8 @@ public class UserAction {
             roleDto.updatedAt = new Timestamp((new Date()).getTime());
             userRoleService.insert(roleDto);
         }
+
+        // 完了画面にリダイレクト
         return "/maintain/user/done?redirect=true";
     }
 
@@ -290,4 +333,18 @@ public class UserAction {
         }
         return result;
     }
+
+    /* -- 共通画面 -------------------------------------------------------------------------------------------------- */
+
+    /**
+     * ユーザメンテナンス完了画面(追加/変更共通)
+     *
+     * @return ユーザメンテナンス完了画面(追加/変更共通)
+     */
+    @RoleLimited(role = Role.admin)
+    @Execute(validator=false)
+    public String done() {
+        return "done.jsp";
+    }
+
 }
