@@ -48,7 +48,7 @@
                     このユーザに付与する権限は以下です。
                     <div class="checkbox">
                         <c:forEach items="${roleEnum }" var="roleElement">
-                            <c:if test="${com:collectionIncludes(userForm.roles, roleElement) }">${roleElement.name }</c:if>
+                            <c:if test="${com:collectionIncludes(userForm.roles, roleElement) }">${roleElement } (${roleElement.name })</c:if>
                         </c:forEach>
                     </div>
                     <html:errors property="roles" />
