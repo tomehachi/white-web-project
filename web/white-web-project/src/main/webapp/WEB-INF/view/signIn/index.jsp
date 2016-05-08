@@ -65,7 +65,7 @@
                         <html:errors property="org.apache.struts.action.GLOBAL_MESSAGE" />
                         <div class="form-group">
                             <label class="control-label" for="email">サインインID</label>
-                            <input class="form-control" id="email" type="text" placeholder="サインインID入力" name="email" value="${email }" autocomplete="off">
+                            <input class="form-control" id="email" type="text" placeholder="サインインID入力" name="email" value="${email }" autocomplete="off" autofocus="autofocus">
                             <html:errors property="email" />
                         </div>
                         <div class="form-group">
