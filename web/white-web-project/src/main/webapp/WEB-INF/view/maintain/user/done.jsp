@@ -21,11 +21,11 @@
 
     <tiles:put name="content" type="string">
     <span class="label label-danger">admin only</span>
-    <h2 class="page-title"><i class="fa fa-wrench"></i>&nbsp;ユーザ登録 | 完了</h2>
+    <h2 class="page-title"><i class="fa fa-wrench"></i>&nbsp;完了</h2>
 
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <div class="alert alert-info"><i class="fa fa-question-circle"></i> ユーザを登録しました。<br>登録されたメールアドレス宛てに、初期パスワードを送信しました。</div>
+            <div class="alert alert-info"><i class="fa fa-info-circle"></i> ユーザの操作が完了しました</div>
         </div>
         <div class="col-md-6 col-md-offset-3">
             <a href="${contextPath }/maintain/user/" class="btn btn-default">ユーザ一覧に戻る</a>
