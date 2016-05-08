@@ -54,6 +54,7 @@
                 <div class="form-group">
                     <label for="email" class="control-label">メールアドレス(ログインID)</label><br>
                     ${f:h(email) }
+                    <input type="text" name="email" value="${email }">
                 </div>
                 </c:if>
 
