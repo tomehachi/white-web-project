@@ -56,12 +56,13 @@
 
     <tiles:put name="content" type="string">
     <span class="label label-danger">admin only</span>
-    <a href="${contextPath }/maintain/user/add" class="btn btn-primary pull-right">新規作成</a>
     <h2 class="page-title"><i class="fa fa-wrench"></i>&nbsp;ユーザ一覧</h2>
 
     <html:errors property="org.apache.struts.action.GLOBAL_MESSAGE" />
 
-    <div id="toolbar"></div>
+    <div id="toolbar">
+        <a href="${contextPath }/maintain/user/add" class="btn btn-primary pull-right">新規作成</a>
+    </div>
     <table id="user-list">
         <thead>
             <tr>
