@@ -91,7 +91,7 @@
                             <c:forEach items="${roleEnum }" var="roleElement">
                             <input type="checkbox" class="btn-switch" name="roles" value="${roleElement }"
                                 <c:if test="${com:collectionIncludes(userForm.roles, roleElement) }">checked="checked"</c:if>>
-                                <button type="button" class="btn btn-default">${roleElement.name }</button>
+                                <button type="button" class="btn btn-default">${roleElement} (${roleElement.name })</button>
                             </c:forEach>
                         </div>
                         <html:errors property="roles" />
