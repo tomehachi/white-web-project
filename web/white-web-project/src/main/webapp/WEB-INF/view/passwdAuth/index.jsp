@@ -27,7 +27,7 @@
                             <html:errors property="key" />
                         </div>
                         <script src='https://www.google.com/recaptcha/api.js'></script>
-                        <div class="g-recaptcha" data-sitekey="6Ld4WhkTAAAAAPwtLgvaMZxINi5KMjVU22b_lAAu"></div>
+                        <div class="g-recaptcha" data-sitekey="${reCaptchaSiteKey }"></div>
                         <div class="form-group">
                             <input class="btn btn-primary" type="submit" value="認証">
                             <input class="btn btn-default" type="reset" value="クリア">
