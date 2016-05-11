@@ -33,7 +33,7 @@
                         <html:errors property="email" />
                     </div>
                     <script src='https://www.google.com/recaptcha/api.js'></script>
-                    <div class="g-recaptcha" data-sitekey="6Ld4WhkTAAAAAPwtLgvaMZxINi5KMjVU22b_lAAu"></div>
+                    <div class="g-recaptcha" data-sitekey="${reCaptchaSiteKey }"></div>
                     <input type="submit" class="btn btn-primary" value="送信する">
                     <input type="reset" class="btn btn-default" value="リセット">
                 </fieldset>
