@@ -87,14 +87,66 @@ public class Excel {
         return row.getCell(colNum);
     }
 
+    /**
+     * セルの値を文字列に変換して取得する.
+     *
+     * @param cell セル
+     * @param cellType セルの型
+     * @return 文字列型に変換したセルの値.
+     */
+    private String convertToString(Cell cell, int cellType) {
+        switch (cellType) {
+        case Cell.CELL_TYPE_NUMERIC:
+            double value = cell.getNumericCellValue();
+            try {
+                // 整数にならない値を parseInt すると NumberFormatException が発生する.
+                // NumberFormatException が発生しなければ整数と判定.
+                return String.valueOf(Integer.parseInt(String.valueOf(value)));
+
+            } catch (NumberFormatException e) {
+                return String.valueOf(value);
+            }
+
+        case Cell.CELL_TYPE_STRING:
+            return cell.getStringCellValue();
+
+        case Cell.CELL_TYPE_FORMULA:
+            // 関数だったら関数の結果の型を取得し、再帰呼び出し.
+            return convertToString(cell, cell.getCachedFormulaResultType());
+
+        case Cell.CELL_TYPE_BLANK:
+            return "";
+
+        case Cell.CELL_TYPE_BOOLEAN:
+            return String.valueOf(cell.getBooleanCellValue());
+
+        case Cell.CELL_TYPE_ERROR:
+            return "error";
+
+        default:
+            return "unknown type";
+        }
+    }
+
+    /**
+     * セルの値を文字列に変換して取得する.<br>
+     *
+     * @param sheetName シート名
+     * @param rowNum 行番号
+     * @param colNum 列番号
+     * @return 文字列型に置換したセルの値
+     */
     public String getCellValueAsString(String sheetName, int rowNum, int colNum) {
         Cell cell = getCell(sheetName, rowNum, colNum);
         if(cell != null) {
-            //TODO
-            return null;
+            return convertToString(cell, cell.getCellType());
 
         } else {
             return null;
         }
+    }
+
+    public String getFileName() {
+        return this.fileName;
     }
 }
